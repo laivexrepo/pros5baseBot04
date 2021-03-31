@@ -14,6 +14,10 @@
 #include "autonomous.hpp"	// Include the autnomous functions, these contain the
 													// the two autonomous routines one for 45sec and one for 2min
 													// as coded in autonomous.cpp
+
+#include "tasks.hpp"			// Include the definition of the various task functions
+													// and variables
+
 /**
  * Runs initialization code. This occurs as soon as the program is started.
  *
@@ -36,6 +40,28 @@ void initialize() {
 	// by changing MOTOR_GEARSET_36 to MOTOR_GEARSET_18
 	pros::Motor left_wheel (LEFT_MOTOR_PORT, MOTOR_GEARSET_36, false, pros::E_MOTOR_ENCODER_DEGREES);
 	pros::Motor right_wheel (RIGHT_MOTOR_PORT, MOTOR_GEARSET_36, true, pros::E_MOTOR_ENCODER_DEGREES);
+
+  // intake motor - used to demonstrate autonomous tasks
+	pros::Motor intake_motor (INTAKE_MOTOR_PORT, MOTOR_GEARSET_18, false, pros::E_MOTOR_ENCODER_DEGREES);
+
+  // initialize the odometers on both left and right side
+	pros::Rotation left_odom(LEFT_ODOM_PORT);
+	pros::Rotation right_odom(RIGHT_ODOM_PORT);
+
+	right_odom.set_reversed(true);						// reverse the right_odometer so both left and right
+																						// count in same direction
+
+  // lests start a LCD display task which shows the actual number of tasks
+	// running at any given moment.
+	// Start the various Autonomus tasks to allow "parallel" operation of mechanisms
+	display = pros::Task (displayTaskFnc, (void*)"PROS", TASK_PRIORITY_DEFAULT,
+								TASK_STACK_DEPTH_DEFAULT, "Display Task"); //starts the task
+	// no need to provide any other parameters
+
+	odom = pros::Task (odomTaskFnc, (void*)"PROS", TASK_PRIORITY_DEFAULT,
+								TASK_STACK_DEPTH_DEFAULT, "Odomoter Task"); //starts the task
+	// no need to provide any other parameters
+
 }
 
 /**
@@ -72,6 +98,14 @@ void autonomous() {
 	// code is defined in the functions located in autonomous.cpp (autonomous.hpp)
 	// call the appropriate one here depending on what your bot will be doing.
 
+  // since we will be using tasks in this sample code, we first need to ensure all
+	// tasks are stopped - the only running task should be the display task which
+	// will stay active adn show the current running tasks counter
+	killTasks();
+
+  // reset the odometers
+	odomResetFlag = true;
+	
   // comment / uncomment the one to use
 	auto45sec();				// 45 second autonomous
 	//autoSkill();				// 2 minute autonomous code

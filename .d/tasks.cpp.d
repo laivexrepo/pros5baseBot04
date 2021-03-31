@@ -1,4 +1,4 @@
-bin/main.cpp.o: src/main.cpp include/main.h include/api.h \
+bin/tasks.cpp.o: src/tasks.cpp include/main.h include/api.h \
  include/pros/adi.h include/pros/colors.h include/pros/distance.h \
  include/pros/ext_adi.h include/pros/adi.h include/pros/adi.h \
  include/pros/imu.h include/pros/llemu.h include/display/lvgl.h \
@@ -73,8 +73,7 @@ bin/main.cpp.o: src/main.cpp include/main.h include/api.h \
  include/pros/rotation.hpp include/pros/rotation.h include/pros/rtos.hpp \
  include/pros/rtos.h include/pros/vision.hpp include/pros/vision.h \
  include/portdef.hpp include/globals.hpp include/main.h \
- include/drivebase.hpp include/globals.hpp include/autonomous.hpp \
- include/tasks.hpp
+ include/pros/apix.h include/pros/serial.h include/pros/serial.hpp
 
 include/main.h:
 
@@ -364,10 +363,8 @@ include/globals.hpp:
 
 include/main.h:
 
-include/drivebase.hpp:
+include/pros/apix.h:
 
-include/globals.hpp:
+include/pros/serial.h:
 
-include/autonomous.hpp:
-
-include/tasks.hpp:
+include/pros/serial.hpp:
