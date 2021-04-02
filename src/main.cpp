@@ -11,6 +11,9 @@
 #include "drivebase.hpp"	// Include the drivebase functions for use, see drivebase.cpp
 													// drivebase.hpp for definitions and descriptions
 
+#include "intake.hpp"			// include the intake functions for use, see intake.cpp and
+													// intake.hpp for definitions and descriptions
+
 #include "autonomous.hpp"	// Include the autnomous functions, these contain the
 													// the two autonomous routines one for 45sec and one for 2min
 													// as coded in autonomous.cpp
@@ -51,13 +54,22 @@ void initialize() {
 	right_odom.set_reversed(true);						// reverse the right_odometer so both left and right
 																						// count in same direction
 
-  // lests start a LCD display task which shows the actual number of tasks
+	// Start the various Autonomus tasks to allow "parallel" operation of mechanisims
+	// Tasks started here SHOULD never access or otherwise be effected by other tasks,
+	// in general these should be reporting tasks - i.e. report sensor data to be used
+	// by other tasks or program sesctions in read-only mode.  If it would be a drivebase
+	// PID task it is very important to understadn when to start / stop such a task between
+	// autonomous and driver control portion of the program, and you may need to consider the
+	// use of mutexes to ensure propper use. (advanced topic not addressed here)
+
+	// Lests start a LCD display task which shows the actual number of tasks
 	// running at any given moment.
-	// Start the various Autonomus tasks to allow "parallel" operation of mechanisms
 	display = pros::Task (displayTaskFnc, (void*)"PROS", TASK_PRIORITY_DEFAULT,
 								TASK_STACK_DEPTH_DEFAULT, "Display Task"); //starts the task
 	// no need to provide any other parameters
 
+	// Lets start a odometer task here whihc always runs and reports the odometer drift
+	// between the left and right front wheel odometers
 	odom = pros::Task (odomTaskFnc, (void*)"PROS", TASK_PRIORITY_DEFAULT,
 								TASK_STACK_DEPTH_DEFAULT, "Odomoter Task"); //starts the task
 	// no need to provide any other parameters
@@ -98,17 +110,21 @@ void autonomous() {
 	// code is defined in the functions located in autonomous.cpp (autonomous.hpp)
 	// call the appropriate one here depending on what your bot will be doing.
 
-  // since we will be using tasks in this sample code, we first need to ensure all
-	// tasks are stopped - the only running task should be the display task which
-	// will stay active adn show the current running tasks counter
-	killTasks();
+  // Currently we have three sampel autonomous routines we can use and activate here:
+	//
+	// auto45Sec()	-- 	would run the code intended for the 45 second autonomous portion
+	//									of a competion prior to switching to driver control mode
+	//
+	// autoSkill()	--	would run a two minute long autonomous skill routine of a the
+	//									competition
+	//
+	// autoTask()		--	a sample autonomous using tasks and inter task synchronization
+	//
 
-  // reset the odometers
-	odomResetFlag = true;
-	
   // comment / uncomment the one to use
 	auto45sec();				// 45 second autonomous
 	//autoSkill();				// 2 minute autonomous code
+	//autoTask();					// sample autonomous using tasks
 }
 
 /**
@@ -125,10 +141,12 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-	// Call one of the two autonomous functions here for testing
+	// Call one of the three autonomous functions here for testing
 	// comment/uncomment one of thefunctions
 
 	auto45sec();					// 45 sec autonomous routine
 
 	//autoSkill();					// 2minute autonomous routine
+
+	//autoTask();						// sample autonomous using tasks
 }

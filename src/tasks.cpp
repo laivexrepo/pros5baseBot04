@@ -9,8 +9,10 @@ pros::task_t drive = (pros::task_t)NULL;
 pros::task_t odom = (pros::task_t)NULL;
 pros::task_t display = (pros::task_t)NULL;
 
-// task inter communication varibales (globals)
-bool odomResetFlag = false;
+// task inter communication variables (globals)
+bool odomResetFlag = false;       // reset reporting odometres to 0
+bool runIntakeNow = false;        // stop / start the intake mechanism
+bool reverseIntake = false;       // reverse direction of intake mechanisim
 
 /*----------------------------------------------------------------------------*/
 // task we keep running all the time to show the number of active rtos tasks

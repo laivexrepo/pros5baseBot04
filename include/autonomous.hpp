@@ -5,4 +5,6 @@ void auto45sec();             // 45 sec autonomous code
 
 void autoSkill();             // full 2min. skill autonomous
 
+void autoTask();              // sample autonomous using tasks
+
 #endif

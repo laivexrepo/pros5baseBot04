@@ -1,4 +1,4 @@
-bin/drivebase.cpp.o: src/drivebase.cpp include/main.h include/api.h \
+bin/intake.cpp.o: src/intake.cpp include/main.h include/api.h \
  include/pros/adi.h include/pros/colors.h include/pros/distance.h \
  include/pros/ext_adi.h include/pros/adi.h include/pros/adi.h \
  include/pros/imu.h include/pros/llemu.h include/display/lvgl.h \
@@ -73,7 +73,7 @@ bin/drivebase.cpp.o: src/drivebase.cpp include/main.h include/api.h \
  include/pros/rotation.hpp include/pros/rotation.h include/pros/rtos.hpp \
  include/pros/rtos.h include/pros/vision.hpp include/pros/vision.h \
  include/globals.hpp include/main.h include/portdef.hpp \
- include/drivebase.hpp include/globals.hpp include/tasks.hpp
+ include/intake.hpp include/tasks.hpp
 
 include/main.h:
 
@@ -363,8 +363,6 @@ include/main.h:
 
 include/portdef.hpp:
 
-include/drivebase.hpp:
-
-include/globals.hpp:
+include/intake.hpp:
 
 include/tasks.hpp:

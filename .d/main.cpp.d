@@ -73,8 +73,8 @@ bin/main.cpp.o: src/main.cpp include/main.h include/api.h \
  include/pros/rotation.hpp include/pros/rotation.h include/pros/rtos.hpp \
  include/pros/rtos.h include/pros/vision.hpp include/pros/vision.h \
  include/portdef.hpp include/globals.hpp include/main.h \
- include/drivebase.hpp include/globals.hpp include/autonomous.hpp \
- include/tasks.hpp
+ include/drivebase.hpp include/globals.hpp include/intake.hpp \
+ include/autonomous.hpp include/tasks.hpp
 
 include/main.h:
 
@@ -367,6 +367,8 @@ include/main.h:
 include/drivebase.hpp:
 
 include/globals.hpp:
+
+include/intake.hpp:
 
 include/autonomous.hpp:
 

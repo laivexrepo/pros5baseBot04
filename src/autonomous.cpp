@@ -12,8 +12,14 @@
 #include "main.h"
 #include "globals.hpp"
 #include "portdef.hpp"
-#include "drivebase.hpp"
+#include "drivebase.hpp"        // drivebase functions including drivebase task definition
+#include "intake.hpp"           // intake functions including intake task definition
 #include "autonomous.hpp"
+#include "tasks.hpp"            // ensure access to tasks definition for our code
+
+// --------------------- autonomous skill code ---------------------------------------
+// This function is supposed to be called in the autonomous() portion of the main.cpp code
+// when running just a two minute long autonomous portion of a competition
 
 void autoSkill() {
   // This is the 2 minute autonomous function code section, call
@@ -95,6 +101,10 @@ void autoSkill() {
   right_wheel.move_velocity(0);
 }
 
+// ------------------ 45 sec autonomous routine -------------------------------------------
+// This autonomous code is supposed to be called in autonomous() section of main.cpp as part
+// of the autonomous + operator control competition portion
+
 void auto45sec() {
   // This is the 45 sec autonomous code function, call
   // this function when you need to run the 45 sec autonomous.
@@ -109,5 +119,38 @@ void auto45sec() {
   if(DEBUG) {std::cout << "Drivebase function: -25cm and speed 100 will be called \n"; }
   driveForDistance(-25, 100);
   std::cout << "Finished drive for distance of -25cm (backwards) at 100RPM speed \n";
+
+}
+
+// -------------------- autonomous task based code sample -----------------------------------
+// This example function runs an autonomous routine which uses tasks to allow for the
+// ´parallel´functionailty between two or more subsystems
+
+void autoTask(){
+  // Since we will be using tasks in this sample code, we first need to ensure all
+  // tasks are stopped - the only running task should be the display task and the odometer
+  // tasks which will stay active and show the current running tasks counter and odometer
+  // readings to the console
+  killTasks();
+
+  // reset the odometers -- we communicate via global to the odometer task
+  odomResetFlag = true;
+
+  runIntakeNow = false;     // ensure intake task does not start intake mechanism
+                            // until asked todo so!
+
+  // Lets start a intake task here
+	intake = pros::Task (intakeTaskFnc, (void*)"PROS", TASK_PRIORITY_DEFAULT,
+								TASK_STACK_DEPTH_DEFAULT, "Intake Task"); //starts the task
+	// no need to provide any other parameters
+
+  // Lets start a intake task here
+	drive = pros::Task (driveTaskFnc, (void*)"PROS", TASK_PRIORITY_DEFAULT,
+								TASK_STACK_DEPTH_DEFAULT, "Drive Task"); //starts the task
+	// no need to provide any other parameters
+
+  // both tasks run until autonomous is ended or if a task has finished - in our
+  // example case the drive task is the controlling task - it syncrhonizes with the
+  // intake task via the global intakeRunNow and intakeReverse global booleans.
 
 }

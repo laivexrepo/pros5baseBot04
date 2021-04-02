@@ -10,4 +10,11 @@
 void driveForDistance(float distance, int speed);  // drive a distance in cm at
                                                    // a given speed
 
+void pivotTurn(float angle, int speed);            // pivot turn (turn in place)
+                                                   // for angle given in degrees at
+                                                   // given speed. -deg counter
+                                                   // clockwise turn.
+
+extern void driveTaskFnc(void* ignore);  // control divebase via task
+
 #endif
