@@ -130,7 +130,7 @@ void autoTask(){
   // Since we will be using tasks in this sample code, we first need to ensure all
   // tasks are stopped - the only running task should be the display task and the odometer
   // tasks which will stay active and show the current running tasks counter and odometer
-  // readings to the console
+  // readings to the console - They are not killed with the killTask() function.
   killTasks();
 
   // reset the odometers -- we communicate via global to the odometer task
@@ -142,12 +142,12 @@ void autoTask(){
   // Lets start a intake task here
 	intake = pros::Task (intakeTaskFnc, (void*)"PROS", TASK_PRIORITY_DEFAULT,
 								TASK_STACK_DEPTH_DEFAULT, "Intake Task"); //starts the task
-	// no need to provide any other parameters
+	                               // no need to provide any other parameters
 
   // Lets start a intake task here
 	drive = pros::Task (driveTaskFnc, (void*)"PROS", TASK_PRIORITY_DEFAULT,
 								TASK_STACK_DEPTH_DEFAULT, "Drive Task"); //starts the task
-	// no need to provide any other parameters
+	                               // no need to provide any other parameters
 
   // both tasks run until autonomous is ended or if a task has finished - in our
   // example case the drive task is the controlling task - it syncrhonizes with the

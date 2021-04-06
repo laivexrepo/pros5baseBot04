@@ -144,9 +144,9 @@ void opcontrol() {
 	// Call one of the three autonomous functions here for testing
 	// comment/uncomment one of thefunctions
 
-	auto45sec();					// 45 sec autonomous routine
+	//auto45sec();					// 45 sec autonomous routine
 
 	//autoSkill();					// 2minute autonomous routine
 
-	//autoTask();						// sample autonomous using tasks
+	autoTask();						// sample autonomous using tasks
 }

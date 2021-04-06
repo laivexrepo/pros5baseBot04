@@ -50,16 +50,20 @@ void intakeTaskFnc(void* ignore) {
     while (true) {
       if(runIntakeNow) {                // runIntakeNow is global flag for inter
                                         // task communication
+        if(DEBUG) { std::cout << "Running Intake Task \n";}
         // we are asked to run the intake - now what direction?
         if(reverseIntake){              // reverseIntake is a global flag for
                                         // inter task communication
           // run counter clockwise
+          if(DEBUG) { std::cout << "Reversing directions \n";}
+
           runIntake(reverseSpeed);    // counter clockwise at reverseSpeed
         } else {
           runIntake(speed);           // clockwise at speed
         }
       } else {
         runIntake(0);                 // stop intake
+        if(DEBUG) { std::cout << "Stopped intake Task \n";}
       }
       pros::delay(20);                // ensure task will not starve processor
     }

@@ -21,8 +21,12 @@ void displayTaskFnc(void* ignore) {
     //the void* is there to provide a way to pass a
     //generic value or structure to the task if needed
     //pros needs this parameter in your function even if you don't use it
+    if(DEBUG) { std::cout << "Starting display task \n"; }
+
+    pros::lcd::initialize();          // Initialize the LCD display
     while(true) {
-        pros::lcd::print(0, "Task Count %3d", pros::Task::get_count() );
+        pros::lcd::print(1, "Task Count %3d", pros::Task::get_count() );
+        if(DEBUG) { std::cout << "Task Count: " << pros::Task::get_count() << "\n"; }
         pros::delay(100);
     }
 }
