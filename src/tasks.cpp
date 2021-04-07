@@ -12,7 +12,7 @@ pros::task_t display = (pros::task_t)NULL;
 // task inter communication variables (globals)
 bool odomResetFlag = false;       // reset reporting odometres to 0
 bool runIntakeNow = false;        // stop / start the intake mechanism
-bool reverseIntake = false;       // reverse direction of intake mechanisim
+bool reverseIntake = false;       // reverse direction of intake mechanism
 
 /*----------------------------------------------------------------------------*/
 // task we keep running all the time to show the number of active rtos tasks
@@ -24,10 +24,11 @@ void displayTaskFnc(void* ignore) {
     if(DEBUG) { std::cout << "Starting display task \n"; }
 
     pros::lcd::initialize();          // Initialize the LCD display
+    std::uint32_t now = pros::millis();   // time stamp in milli sec
     while(true) {
         pros::lcd::print(1, "Task Count %3d", pros::Task::get_count() );
         if(DEBUG) { std::cout << "Task Count: " << pros::Task::get_count() << "\n"; }
-        pros::delay(100);
+        pros::Task::delay_until(&now, 100);     // ensure consitent 100ms (10Hz cycle)
     }
 }
 
@@ -47,6 +48,7 @@ void odomTaskFnc(void* ignore) {
       right_odom.set_reversed(true);
     }
 
+    std::uint32_t now = pros::millis();   // time stamp in milli sec
     while(true){
        if(odomResetFlag){
          // requested odometer odometer resets to 0
@@ -57,7 +59,7 @@ void odomTaskFnc(void* ignore) {
        // get the left and right odom and show the difference
        int odom_diff = left_odom.get_position() - right_odom.get_position();
        std::cout << "Odom drift: " << odom_diff << "\n";
-       pros::delay(50);                       // don´t run to fast
+       pros::Task::delay_until(&now, 50);     // ensure consitent 50ms (20Hz cycle)
     }
 }
 

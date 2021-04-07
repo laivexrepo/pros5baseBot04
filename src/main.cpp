@@ -62,7 +62,7 @@ void initialize() {
 	// autonomous and driver control portion of the program, and you may need to consider the
 	// use of mutexes to ensure propper use. (advanced topic not addressed here)
 
-	// Lests start a LCD display task which shows the actual number of tasks
+	// Lets start a LCD display task which shows the actual number of tasks
 	// running at any given moment.
 	display = pros::Task (displayTaskFnc, (void*)"PROS", TASK_PRIORITY_DEFAULT,
 								TASK_STACK_DEPTH_DEFAULT, "Display Task"); //starts the task
